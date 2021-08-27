@@ -1,18 +1,51 @@
-export type Rectangle = {
+import hyperid from 'hyperid';
+
+const uuid = hyperid();
+
+export class Shape {
+  id: string;
+  color: string;
+  constructor(id: string, color: string) {
+    this.id = id;
+    this.color = color;
+  }
+}
+
+export class Rectangle extends Shape {
   length: number;
   width: number;
-};
+  constructor(color: string, length: number, width: number) {
+    super(uuid(), color);
+    this.length = length;
+    this.width = width;
+  }
+}
 
-export type Ellipse = {
+export class Ellipse extends Shape {
   xRadius: number;
   yRadius: number;
-};
+  constructor(color: string, xRadius: number, yRadius: number) {
+    super(uuid(), color);
+    this.xRadius = xRadius;
+    this.yRadius = yRadius;
+  }
+}
 
-export type Shape = (Rectangle | Ellipse) & {
-  id: string;
-  type: 'rectangle' | 'ellipse';
-  color: string;
-};
+// export type Rectangle = {
+//   length: number;
+//   width: number;
+// };
+
+// export type Ellipse = {
+//   xRadius: number;
+//   yRadius: number;
+// };
+
+// export type Shape = (Rectangle | Ellipse) & {
+//   id: string;
+//   type: 'rectangle' | 'ellipse';
+//   color: string;
+// };
 
 export type Text = {
   text: string;

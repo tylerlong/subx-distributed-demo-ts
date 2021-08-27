@@ -1,26 +1,16 @@
-/* eslint-disable node/no-unpublished-import */
 import SubX from 'subx';
-import hyperid from 'hyperid';
 
-import {Text, Shape, StoreType, StoreFunctions, StoreData} from './types';
+import {
+  Text,
+  StoreFunctions,
+  StoreData,
+  Rectangle,
+  Ellipse,
+  Shape,
+} from './types';
 
-const uuid = hyperid();
-
-const rect1: Shape = {
-  id: uuid(),
-  type: 'rectangle',
-  color: '#ff7a03',
-  length: 512,
-  width: 512,
-};
-
-const rect2: Shape = {
-  id: uuid(),
-  type: 'rectangle',
-  color: 'white',
-  length: 450,
-  width: 450,
-};
+const rect1 = new Rectangle('#ff7a03', 512, 512);
+const rect2 = new Rectangle('white', 450, 450);
 
 const text: Text = {
   text: 'R',
@@ -43,6 +33,15 @@ const storeFunctions: StoreFunctions = {
   },
 };
 
-const store = SubX.proxy<StoreType>({...storeData, ...storeFunctions});
+const store = SubX.create({...storeData, ...storeFunctions});
 
-export default store;
+store.$.subscribe(event => {
+  console.log(event);
+});
+
+(store.shapes[0] as Rectangle).width = 513;
+
+console.log(store.shapes[0] instanceof Rectangle);
+console.log(store.shapes[0] instanceof Ellipse);
+console.log(store.shapes[0] instanceof Shape);
+console.log(store.shapes[0]);
